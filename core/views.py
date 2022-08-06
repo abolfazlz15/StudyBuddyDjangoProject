@@ -1,13 +1,14 @@
-from django.views.generic import CreateView, TemplateView, View, DeleteView
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
-from django.contrib.auth.models import User
+from django.views.generic import CreateView, DeleteView, TemplateView, View, ListView
+
 from .models import Message, Room, Topic
 
 
 class HomeView(TemplateView):
     template_name = 'core/home.html'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self,*args, **kwargs):
         context = super().get_context_data(**kwargs)
         context['rooms'] = Room.objects.filter(status=True)
         context['topics'] = Topic.objects.all()
@@ -37,3 +38,38 @@ class DeleteMessageView(DeleteView):
     model = Message
     success_url = reverse_lazy('core:home')
 
+
+class TopicDetailView(View):
+    def setup(self, request, *args, **kwargs):
+        self.topic = get_object_or_404(Topic, id=kwargs['pk'])
+        self.rooms = self.topic.rooms.all()
+        self.topics = Topic.objects.all()
+        self.message = Message.objects.filter(status=True)
+        return super().setup(request, *args, **kwargs)
+
+    def get(self, request, *arge, **kwarge):
+        rooms = self.rooms
+        topics = self.topics
+        message = self.message
+
+        context = {
+            'rooms': rooms,
+            'topics': topics,
+            'messages': message,
+            
+        }
+        return render(request, 'core/home.html', context)
+
+
+class TopicsView(ListView):
+    model = Topic
+    template_name = 'core/topics.html'
+    context_object_name = 'topics'
+
+    def get_queryset(self, *args, **kwargs):
+        topics = super().get_queryset(*args, **kwargs)
+        
+        q = self.request.GET.get('q')
+        if q:
+            return Topic.objects.filter(name__icontains=q)
+        return topics
