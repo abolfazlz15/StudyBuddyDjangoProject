@@ -1,6 +1,8 @@
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DeleteView, TemplateView, View, ListView
+from django.views.generic import (CreateView, DeleteView, ListView,
+                                  TemplateView, View)
 
 from .models import Message, Room, Topic
 
@@ -61,7 +63,7 @@ class TopicDetailView(View):
         return render(request, 'core/home.html', context)
 
 
-class TopicsView(ListView):
+class TopicListView(ListView):
     model = Topic
     template_name = 'core/topics.html'
     context_object_name = 'topics'
@@ -73,3 +75,21 @@ class TopicsView(ListView):
         if q:
             return Topic.objects.filter(name__icontains=q)
         return topics
+
+
+class SearchRoomView(ListView):
+    model = Room
+    template_name = 'core/home.html'
+    context_object_name = 'rooms'
+
+    def get_queryset(self, *args, **kwargs):
+        rooms = super().get_queryset(*args, **kwargs)
+
+        q = self.request.GET.get('q')
+        if q:
+            return Room.objects.filter(
+            Q(topic__name__icontains=q) |
+            Q(name__icontains=q) |
+            Q(description__icontains=q)
+            )
+        return rooms
