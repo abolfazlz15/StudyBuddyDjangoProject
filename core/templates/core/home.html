@@ -81,7 +81,7 @@
                             </div>
                         </div>
                         <div class="roomListRoom__content">
-                            <a href="room.html"> {{ room.name }} </a>
+                            <a href="{{ room.get_absolute_url }}"> {{ room.name }} </a>
                             <p>
                                 {{ room.description }}
                             </p>

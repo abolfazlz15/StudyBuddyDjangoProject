@@ -33,7 +33,7 @@ class Room(models.Model):
         super(Room, self).save()
 
     def get_absolute_url(self):
-        return reverse('core:room', kwargs={'pk': self.pk, 'slug': self.slug})
+        return reverse('core:room-detail', kwargs={'pk': self.pk, 'slug': self.slug})
 
 
 class Message(models.Model):
