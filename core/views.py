@@ -40,6 +40,7 @@ class CreateRoomView(CreateView):
 class DeleteMessageView(DeleteView):
     model = Message
     success_url = reverse_lazy('core:home')
+    template_name = 'core/confim_delete.html'
 
 
 class TopicDetailView(View):
@@ -128,3 +129,9 @@ class RoomDetailView(View):
             self.room.participants.add(request.user) # for add new user to participants 
             message.save()
             return redirect('core:room-detail', self.room.id, self.room.slug)
+
+
+class DeleteRoomView(DeleteView):
+    model = Room
+    success_url = reverse_lazy('core:home')
+    template_name = 'core/confirm_delete.html'

@@ -8,6 +8,7 @@ urlpatterns = [
     path('', views.HomeView.as_view(), name='home'),
     path('createroom', views.CreateRoomView.as_view(), name='create-room'),
     path('search/', views.SearchRoomView.as_view(), name='search-room'),
+    path('deleteroom/<int:pk>', views.DeleteRoomView.as_view(), name='delete-room'),
 
 
     # topic URL
