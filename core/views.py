@@ -1,6 +1,6 @@
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.views.generic import (CreateView, DeleteView, ListView,
                                   TemplateView, View)
 
@@ -39,9 +39,15 @@ class CreateRoomView(CreateView):
 
 class DeleteMessageView(DeleteView):
     model = Message
-    success_url = reverse_lazy('core:home')
-    template_name = 'core/confim_delete.html'
+    template_name = 'core/confirm_delete.html'
 
+    def get_success_url(self):
+        room = Room.objects.get(id=self.object.room.id)
+        test = Message.objects.filter(user=self.request.user, room=room)
+        print(test.count())
+        if test.count() == 1:
+            room.participants.remove(self.request.user)
+        return reverse('core:home')
 
 class TopicDetailView(View):
     def setup(self, request, *args, **kwargs):
@@ -84,7 +90,7 @@ class SearchRoomView(ListView):
     template_name = 'core/home.html'
     context_object_name = 'rooms'
 
-    def get_queryset(self, *args, **kwargs):
+    def get_queryset(self):
         rooms = super().get_queryset()
 
         q = self.request.GET.get('q')
@@ -122,11 +128,11 @@ class RoomDetailView(View):
 
     def post(self, request, *args, **kwargs):
         form = self.message_form_class(request.POST)
-        if form.is_valid(): 
+        if form.is_valid():
             message = form.save(commit=False)
             message.user = request.user
             message.room = self.room
-            self.room.participants.add(request.user) # for add new user to participants 
+            self.room.participants.add(request.user)  # for add new user to participants
             message.save()
             return redirect('core:room-detail', self.room.id, self.room.slug)
 

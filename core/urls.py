@@ -10,7 +10,6 @@ urlpatterns = [
     path('search/', views.SearchRoomView.as_view(), name='search-room'),
     path('deleteroom/<int:pk>', views.DeleteRoomView.as_view(), name='delete-room'),
 
-
     # topic URL
     path('topic/<int:pk>', views.TopicDetailView.as_view(), name='topic-detail'),
     path('topics', views.TopicListView.as_view(), name='topics'),
