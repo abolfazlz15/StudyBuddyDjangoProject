@@ -29,7 +29,7 @@
       <div class="header__user">
         <a href="profile.html">
           <div class="avatar avatar--medium active">
-            <img src="https://randomuser.me/api/portraits/men/37.jpg" />
+            <img src="{{ request.user.profile_image.url }}" />
           </div>
           <p>John Doe <span>@john_doe</span></p>
         </a>
