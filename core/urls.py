@@ -12,7 +12,8 @@ urlpatterns = [
 
     # topic URL
     path('topic/<int:pk>', views.TopicDetailView.as_view(), name='topic-detail'),
-    path('topics', views.TopicListView.as_view(), name='topics'),
+    path('topics', views.TopicListView.as_view(), name='topic'),
+    path('topics/create', views.CreateTopicView.as_view(), name='create-topic'),
 
     # Message URL
     path('deletemesssge/<int:pk>', views.DeleteMessageView.as_view(), name='delete-message'),
