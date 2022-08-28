@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
+from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 
 from .managers import UserManager
@@ -41,3 +42,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
+
+    def showImage(self):
+        if self.avatar:
+            return format_html(f'<img src="{self.avatar.url}" alt="" width="50px" height="50px">')
+        else:
+            return format_html('No Profile')
+
+    showImage.short_description = 'Profile Image'      
