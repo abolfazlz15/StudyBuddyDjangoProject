@@ -2,7 +2,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,django,visualstudiocode,venv
 
 # my ignore
-
+theme/
 ### Django ###
 *.log
 *.pot
