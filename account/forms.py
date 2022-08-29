@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
+from django.contrib.auth import authenticate
 
 from .models import User
 
@@ -37,3 +38,18 @@ class UserChangeForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('email', 'password', 'username', 'phone_number', 'is_active', 'is_admin')
+
+
+class LoginForm(forms.Form):
+    email = forms.EmailField(widget=forms.EmailInput(
+        attrs={'placeholder': 'enter your email'})
+    )
+    password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'placeholder': 'enter your password'})
+    )
+
+    def clean_password(self):
+        user = authenticate(email=self.cleaned_data.get('email'), password=self.cleaned_data.get('password'))
+        if user is not None:
+            return self.cleaned_data.get('password')
+        raise ValidationError('username or password is incorrect', code='invalid_info')
