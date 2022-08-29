@@ -42,7 +42,14 @@
         <div class="profile">
           <div class="profile__avatar">
             <div class="avatar avatar--large active">
-              <img src="{{ object.profile_image.url }}" />
+              
+              {% if object.avatar %}
+              <img src="{{ object.avatar.url }}" />
+              {% else %}
+              <img src="{% static 'assets/images/sutdent-prof.png' %}" />
+
+              {% endif %}
+                
             </div>
           </div>
           <div class="profile__info">

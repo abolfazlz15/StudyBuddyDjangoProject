@@ -72,7 +72,14 @@
                         <div class="roomListRoom__header">
                             <a href="profile.html" class="roomListRoom__author">
                                 <div class="avatar avatar--small">
-                                    <img src="https://randomuser.me/api/portraits/women/11.jpg"/>
+                                    
+                                    {% if room.host.avatar %}
+                                    <img src="{{ room.host.avatar.url }}"/>
+                                    {% else %}
+                                    <img src="{% static 'assets/images/sutdent-prof.png' %}" />
+                                    {% endif %}
+                                        
+                                    
                                 </div>
                                 <span>@{{ room.host }}</span>
                             </a>
@@ -123,8 +130,11 @@
                         <div class="activities__boxHeader roomListRoom__header">
                             <a href="profile.html" class="roomListRoom__author">
                                 <div class="avatar avatar--small">
-                                    <img src="https://randomuser.me/api/portraits/women/11.jpg"/>
-                                </div>
+                                    {% if message.user.avatar %}
+                                    <img src="{{  message.user.avatar.url }}"/>
+                                    {% else %}
+                                    <img src="{% static 'assets/images/sutdent-prof.png' %}" />
+                                    {% endif %}                                </div>
                                 <p>
                                     @{{ message.user.username }}
                                     <span>5 days ago</span>
