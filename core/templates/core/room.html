@@ -136,13 +136,23 @@
                     </div>
                 </div>
             </div>
+            
+            {% if request.user.is_authenticated %}
+                <div class="room__message">
+                    <form method="post" action="#">
+                        {% csrf_token %}
+                        {{ form.text }}
+                        <!-- <input type="submit"> -->
+                    </form>
+                </div>
+            {% else %}
             <div class="room__message">
-                <form method="post" action="#">
-                    {% csrf_token %}
-                    {{ form.text }}
-                    <!-- <input type="submit"> -->
-                </form>
+                <a class="btn btn--main" href="{% url 'account:login' %}">please login for send message</a>
             </div>
+            
+            {% endif %}
+                
+            
         </div>
         <!-- Room End -->
 

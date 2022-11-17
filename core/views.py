@@ -5,7 +5,9 @@ from django.views.generic import (CreateView, DeleteView, ListView,
                                   TemplateView, View)
 
 from .forms import MessageFrom
+# from .mixins import AddTopicMixins
 from .models import Message, Room, Topic
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class HomeView(TemplateView):
@@ -48,6 +50,7 @@ class DeleteMessageView(DeleteView):
         if test.count() == 1:
             room.participants.remove(self.request.user)
         return reverse('core:home')
+
 
 class TopicDetailView(View):
     def setup(self, request, *args, **kwargs):
@@ -141,3 +144,10 @@ class DeleteRoomView(DeleteView):
     model = Room
     success_url = reverse_lazy('core:home')
     template_name = 'core/confirm_delete.html'
+
+# AddTopicMixins
+class CreateTopicView(LoginRequiredMixin, CreateView):
+    model = Topic
+    fields = ['name']
+    template_name = 'core/create_topic.html'
+    success_url = reverse_lazy('core:home')

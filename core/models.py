@@ -12,7 +12,7 @@ class Topic(models.Model):
 
 
 class Room(models.Model):
-    host = models.ForeignKey(User, default='userNotFound', on_delete=models.SET_DEFAULT)
+    host = models.ForeignKey(User, default='userNotFound', on_delete=models.SET_DEFAULT,  related_name='rooms')
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='rooms')
     name = models.CharField(max_length=155)
     slug = models.SlugField(null=True, blank=True)

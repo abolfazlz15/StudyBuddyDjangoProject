@@ -70,7 +70,7 @@
                 {% for room in rooms %}
                     <div class="roomListRoom">
                         <div class="roomListRoom__header">
-                            <a href="profile.html" class="roomListRoom__author">
+                            <a href="{% url 'account:profile-detail' room.host.id %}" class="roomListRoom__author">
                                 <div class="avatar avatar--small">
                                     
                                     {% if room.host.avatar %}
@@ -128,7 +128,7 @@
                 {% for message in messages %}
                     <div class="activities__box">
                         <div class="activities__boxHeader roomListRoom__header">
-                            <a href="profile.html" class="roomListRoom__author">
+                            <a href="{% url 'account:profile-detail' message.user.id %}" class="roomListRoom__author">
                                 <div class="avatar avatar--small">
                                     {% if message.user.avatar %}
                                     <img src="{{  message.user.avatar.url }}"/>
