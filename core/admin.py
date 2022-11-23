@@ -31,7 +31,7 @@ class RoomAdminModel(admin.ModelAdmin):
             updated,
         ) % updated, messages.SUCCESS)
 
-
+# admin.site.register(Message)
 @admin.register(Message)
 class MessageAdminModel(admin.ModelAdmin):
     fields = ['user', 'room', 'text', 'status']

@@ -10,6 +10,7 @@ from .models import User
 
 class UserProfileView(DetailView):
     model= User
+    context_object_name = 'user'
     template_name = 'account/profile.html'
     
 
